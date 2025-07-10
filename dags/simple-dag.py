@@ -39,7 +39,7 @@ with DAG(
     publish_ml = PythonOperator(
         task_id="publish_ml",
         python_callable=lambda: print("Publishing ML model..."),
-        trigger_rule="none_failed_or_skipped"
+        trigger_rule="none_failed_min_one_success"
     )
 
     end = EmptyOperator(task_id="end")
