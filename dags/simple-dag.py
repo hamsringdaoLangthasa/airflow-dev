@@ -19,7 +19,7 @@ with DAG(
     default_args={"owner": "Airflow", "retries": 3},
     tags=["example"],
 ) as dag:
-    # Define tasks
+
     start = EmptyOperator(task_id="start")
 
     training_ml = PythonOperator(
