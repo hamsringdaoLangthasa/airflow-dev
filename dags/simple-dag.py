@@ -5,9 +5,9 @@ from airflow.operators.empty import EmptyOperator
 from airflow.operators.python import PythonOperator, BranchPythonOperator
 
 def _check_accuracy():
-    accuracy = 0.85
-    if accuracy > 0.8:
-        return "accurate"
+    accuracy = 1
+    if accuracy >= 1:
+        return ["accurate", "top_accurate"]
     else:
         return "inaccurate"
 
@@ -33,8 +33,15 @@ with DAG(
     )
 
     accurate = EmptyOperator(task_id="accurate")
+    top_accurate = EmptyOperator(task_id="top_accurate")
     inaccurate = EmptyOperator(task_id="inaccurate")
+
+    publish_ml = PythonOperator(
+        task_id="publish_ml",
+        python_callable=lambda: print("Publishing ML model..."),
+        trigger_rule="none_failed_or_skipped"
+    )
 
     end = EmptyOperator(task_id="end")
 
-    start >> training_ml >> check_accuracy >> [ accurate, inaccurate ] >> end
+    start >> training_ml >> check_accuracy >> [ accurate, top_accurate, inaccurate ] >> publish_ml >> end
