@@ -39,4 +39,4 @@ with DAG(
         )
 
         # Label is optional here, but it can help identify more complex branches
-        branching >> option >> t >> empty_follow >> join
+        branching >> t >> empty_follow >> join
