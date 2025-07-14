@@ -20,3 +20,4 @@ with DAG(
     end = EmptyOperator(task_id='end')
 
     start >> [task_a, task_b] >> task_c >> end
+    start >> [task_a, task_b] >> task_c >> end
