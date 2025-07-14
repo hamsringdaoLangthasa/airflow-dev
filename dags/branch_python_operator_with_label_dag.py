@@ -1,6 +1,6 @@
 """Example DAG demonstrating the usage of the BranchPythonOperator."""
 
-from airflow.sdk import DAG
+from airflow.sdk import DAG, Label
 from airflow.providers.standard.operators.empty import EmptyOperator
 from airflow.providers.standard.operators.python import BranchPythonOperator
 import random
@@ -39,4 +39,4 @@ with DAG(
         )
 
         # Label is optional here, but it can help identify more complex branches
-        branching >> option >> t >> empty_follow >> join
+        branching >> Label(option) >> t >> empty_follow >> join
